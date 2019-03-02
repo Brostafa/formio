@@ -60,8 +60,10 @@
 		const $ = selector => document.querySelector(selector)
 
 		const formNode = $('#formio')
+		// Change this to your FormIO form url
 		const formUrl = 'https://ljtmbjiiexbvfle.form.io/bitcoin'
-		const serverUrl = 'https://7cc0af09.ngrok.io/'
+		// Change this to your webhook receiver URL
+		const serverUrl = 'https://formio-wampei.herokuapp.com/'
 
 		const formCreatedHandler = form => {
 			const descriptionNode = $('[name="data[description]"]')

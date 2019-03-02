@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>FormIO</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/formiojs@latest/dist/formio.full.min.css">
+	<script src="https://unpkg.com/formiojs@latest/dist/formio.full.min.js"></script>
+	<style>
+		body {
+			margin-top: 30px;
+		}
+
+		.table-wrapper {
+			overflow-x: auto
+		}
+
+		.qr-image p {
+			width: 330px;
+			max-width: 100%
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<section id="formio"></section>
+		<section class="table-wrapper">
+			<table class="hidden table" id="webhook">
+				<tr>
+					<td>Price BTC</td>
+					<td>Address</td>
+					<td>BTC To USD</td>
+					<td>Price USD</td>
+					<td>due BTC</td>
+					<td>bitcoin Uri</td>
+					<td>bill URL</td>
+					<td>status</td>
+				</tr>
+				<tr>
+					<td id="priceBTC"></td>
+					<td id="address"></td>
+					<td id="btcToUsd"></td>
+					<td id="priceUSD"></td>
+					<td id="dueBTC"></td>
+					<td id="bitcoinUri"></td>
+					<td id="billURL"></td>
+					<td id="status"></td>
+				</tr>
+			</table>
+		</section>
+		<section class="qr-image hidden" id="qrImageWrapper">
+			<img src="" alt="QR image" id="qrImage">
+			<p class="well text-center">Scan to pay <span id="dueBtcQr"></span> BTC</p>
+		</section>
+	</div>
+
+	<script type="text/javascript">
+		const $ = selector => document.querySelector(selector)
+
+		const formNode = $('#formio')
+		const formUrl = 'https://ljtmbjiiexbvfle.form.io/bitcoin'
+		const serverUrl = 'https://7cc0af09.ngrok.io/'
+
+		const formCreatedHandler = form => {
+			const descriptionNode = $('[name="data[description]"]')
+			const amountNode = $('[name="data[amount]"]')
+			const submitNode = $('[name="data[submit]"]')
+			// stop form from re-submission
+			submitNode.addEventListener('submit', () => !submitNode.disabled)
+			amountNode.addEventListener('keypress', e => {
+				// when we press "Enter" key then submit the form
+				if (e.which === 13) {
+					submitNode.click()
+				}
+			})
+
+			form.on('submitDone', response => {
+				const { metadata } = response
+				const webhookData = metadata['Webhook (Premium)']
+				const {
+					priceBTC,
+					address,
+					btcToUsd,
+					priceUSD,
+					dueBTC,
+					bitcoinUri,
+					qrImage,
+					billURL,
+					status,
+				} = webhookData
+
+				descriptionNode.disabled = true
+				amountNode.disabled = true
+				submitNode.disabled = true
+
+				$('#priceBTC').innerText = priceBTC
+				$('#address').innerText = address
+				$('#btcToUsd').innerText = btcToUsd
+				$('#priceUSD').innerText = priceUSD
+				$('#dueBTC').innerText = dueBTC
+				$('#dueBtcQr').innerText = dueBTC
+				$('#bitcoinUri').innerText = bitcoinUri
+				$('#billURL').innerText = billURL
+				$('#status').innerText = status
+				$('#qrImage').src = qrImage
+
+				$('#qrImageWrapper').classList.remove("hidden")
+				$('#webhook').classList.remove("hidden")
+
+				fetch(`/submission?id=${response._id}`, {
+					method: 'PUT'
+				})
+			})
+		}
+
+		Formio.createForm(formNode, formUrl).then(formCreatedHandler)
+	</script>
+</body>
+</html>

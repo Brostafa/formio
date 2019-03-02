@@ -1,0 +1,47 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "rules": {
+        "indent": [
+            "error",
+            "tab",
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single",
+            { "allowTemplateLiterals": true }
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "no-console": "off",
+        "eqeqeq": "error",
+        "dot-location": [
+            "warn",
+            "property"
+        ],
+        "no-loop-func": "error",
+        "no-var": "error",
+        "no-self-compare": "error"
+    }
+}

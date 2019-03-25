@@ -101,7 +101,7 @@ pm2 -v # 3.4.0
 #### Create webhook receiver
 
 - In FormIO go to Settings (side bar) -> API keys -> Add New Key -> Pick a name for the key -> Copy API key to the clipboard
-![Add API Key](https://gdurl.com/Ij0g)
+![Add API Key](https://gdurl.com/46DZ/)
 - Go back to the server we created and run these commands
 
 ```bash

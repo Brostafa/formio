@@ -8,6 +8,7 @@ Integrate form.io with wampei invoice system
 - [Installation](#installation)
   - [Create a form](#create-a-form)
   - [Create webhook receiver](#create-webhook-receiver)
+  - [Embed Form](#embed-form)
 
 ### Requirements
 
@@ -112,3 +113,21 @@ nano .env
 ```
 
 - Fill in the missing values (e.g: WAMPEI_USERNAME, WAMPEI_PASSWORD, FORMIO_API_KEY, FORMIO_APP_URL)
+- Press Ctrl-X and pick "y" to save changes
+- run `pm2 start index.js`
+- run `curl ipinfo.io/ip` to get your server IP then copy your server IP to clipboard
+- Go back to FormIO -> Forms -> Pick your form -> Actions (top bar) -> Add a "Webhook" action
+- In Request URL field add `http://<SERVER_IP>:8080/bitcoin` (e.g: http://167.99.145.142:8080/bitcoin)
+- Scroll down till you find "Wait for webhook response before continuing actions" and check its checkbox
+- In Action Execution -> Mehthods -> Remove Update & Delete
+- Save Action
+- Now in the browser go to `http://<SERVER_IP>:8080/` and it should take you to your form
+
+
+### Embed form
+
+- You can embed the form by using this code
+
+```html
+<iframe src="http://<SERVER_IP>:8080" width="800" height="300" frameBorder="0"></iframe>
+```

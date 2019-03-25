@@ -36,7 +36,9 @@ router.use(bodyParser.urlencoded({ extended: false }))
 // enable gzip compression
 router.use(compression())
 // add some secure headers
-router.use(helemt())
+router.use(helemt({
+	frameguard: false
+}))
 // enable cross-origin requests
 router.use(cors())
 router.use(bitcoinRouter)

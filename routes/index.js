@@ -39,9 +39,16 @@ router.use(compression())
 router.use(helemt())
 // enable cross-origin requests
 router.use(cors())
-// serve static files in public folder
-router.use(express.static('public'))
 router.use(bitcoinRouter)
 router.use(submissionRouter)
+// serve our form
+router.get('/', (req, res) => {
+	res.render('form', {
+		FORMIO_APP_URL: process.env.FORMIO_APP_URL,
+		layout: false
+	})
+})
+
+ 
 
 module.exports = router

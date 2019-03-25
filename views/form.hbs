@@ -61,9 +61,7 @@
 
 		const formNode = $('#formio')
 		// Change this to your FormIO form url
-		const formUrl = 'https://ljtmbjiiexbvfle.form.io/bitcoin'
-		// Change this to your webhook receiver URL
-		const serverUrl = 'https://formio-wampei.herokuapp.com/'
+		const formUrl = '{{FORMIO_APP_URL}}'
 
 		const formCreatedHandler = form => {
 			const descriptionNode = $('[name="data[description]"]')
